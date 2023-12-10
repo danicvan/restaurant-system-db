@@ -1,0 +1,25 @@
+{
+    "items": [
+        {
+            "code": "01",
+            "description": "Shrimp Tempura",
+            "amount": "RM 23.90",
+            "quantity": "2",
+            "subtotal": "RM 47.80"
+        },
+        {
+            "code": "02",
+            "description": "Oyster Dynamite",
+            "amount": "RM 23.90",
+            "quantity": "1",
+            "subtotal": "RM 23.90"
+        },
+        {
+            "code": "03",
+            "description": "Fried Calamari Salad",
+            "amount": "RM 23.90",
+            "quantity": "2",
+            "subtotal": "RM 47.80"
+        }
+    ]
+}
