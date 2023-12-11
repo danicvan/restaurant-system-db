@@ -1,55 +1,41 @@
 [
   {
-    "code": "unique-code",
-    "description": "Product",
-    "amount": "RM25.10",
-    "quantity": 1,
-    "subtotal": "RM25.10"
-  },
-  {
-    "code": "unique-code",
-    "description": "Product",
-    "amount": "RM25.10",
-    "quantity": 6,
-    "subtotal": "RM150.60"
-  },
-  {
-    "code": "unique-code",
-    "description": "Product",
-    "amount": "RM25.10",
-    "quantity": 3,
-    "subtotal": "RM75.30"
-  },
-  {
-    "code": "unique-code",
-    "description": "Product",
-    "amount": "RM25.10",
-    "quantity": 1,
-    "subtotal": "RM25.10"
-  },
-  {
-    "code": "unique-code",
+    "code": "1",
     "description": "Product",
     "amount": "RM25.10",
     "quantity": 4,
     "subtotal": "RM100.40"
   },
   {
-    "code": "unique-code",
+    "code": "2",
     "description": "Product",
     "amount": "RM25.10",
-    "quantity": 8,
-    "subtotal": "RM200.80"
+    "quantity": 7,
+    "subtotal": "RM175.70"
   },
   {
-    "code": "unique-code",
+    "code": "3",
     "description": "Product",
     "amount": "RM25.10",
-    "quantity": 12,
-    "subtotal": "RM301.20"
+    "quantity": 10,
+    "subtotal": "RM251.00"
   },
   {
-    "code": "unique-code",
+    "code": "4",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 1,
+    "subtotal": "RM25.10"
+  },
+  {
+    "code": "5",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 1,
+    "subtotal": "RM25.10"
+  },
+  {
+    "code": "6",
     "description": "Product",
     "amount": "RM25.10",
     "quantity": 2,
