@@ -40,5 +40,40 @@
     "amount": "RM25.10",
     "quantity": 2,
     "subtotal": "RM50.20"
+  },
+  {
+    "code": "7",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 3,
+    "subtotal": "RM75.30"
+  },
+  {
+    "code": "8",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 7,
+    "subtotal": "RM175.70"
+  },
+  {
+    "code": "9",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 3,
+    "subtotal": "RM75.30"
+  },
+  {
+    "code": "10",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 3,
+    "subtotal": "RM75.30"
+  },
+  {
+    "code": "11",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 2,
+    "subtotal": "RM50.20"
   }
 ]
