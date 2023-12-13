@@ -29,16 +29,26 @@ app.post("/orders", async (req, res) => {
     }
 });
 
+app.get("/products", async (req, res) => {
+    try {
+        const data = await fs.readFile("data/products.json", "utf-8");
+        res.json(JSON.parse(data));
+    } catch (error) {
+        console.error("Error reading orders file: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.post("/products", async (req, res) => {
     try {
-      const newProduct = req.body;
-      await saveProductToFile(newProduct);
-      res.json({ message: "Product data saved successfully!" });
+        const newProduct = req.body;
+        await saveProductToFile(newProduct);
+        res.json({ message: "Product data saved successfully!" });
     } catch (error) {
-      console.error("Error saving product data:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error saving product data:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-  });
+});
 
 async function savePurchaseToFile(newPurchase) {
     let existingData = [];
@@ -47,7 +57,9 @@ async function savePurchaseToFile(newPurchase) {
         existingData = JSON.parse(data);
         console.log("savePurchaseToFile, existingData:", existingData);
         console.log("existingData.length:", existingData.length);
-    } catch (error) { }
+    } catch (error) {
+        console.error("Error reading products file:", error);
+     }
 
     // Generate a unique code for the new purchase
     const lastCode =
@@ -56,7 +68,6 @@ async function savePurchaseToFile(newPurchase) {
 
     // Assign the new code to the new purchase
     newPurchase.code = newCode;
-
     existingData.push(newPurchase);
 
     await fs.writeFile(
@@ -69,20 +80,27 @@ async function savePurchaseToFile(newPurchase) {
 async function saveProductToFile(newProduct) {
     let existingData = [];
     try {
-      const data = await fs.readFile("data/products.json", "utf-8");
-      existingData = JSON.parse(data);
+        const data = await fs.readFile("data/products.json", "utf-8");
+        existingData = JSON.parse(data);
+        console.log("saveProductToFile, existingData:", existingData);
+        console.log("existingData.length:", existingData.length);
     } catch (error) {
-      console.error('Error reading products file:', error);
+        console.error("Error reading products file:", error);
     }
-  
-    const lastCode = existingData.length > 0 ? existingData[existingData.length - 1].code : 0;
+
+    const lastCode =
+        existingData.length > 0 ? existingData[existingData.length - 1].code : 0;
     const newCode = generateUniqueCode(lastCode);
-  
+
     newProduct.code = newCode;
     existingData.push(newProduct);
-  
-    await fs.writeFile('data/products.json', JSON.stringify(existingData, null, 2), 'utf-8');
-  }
+
+    await fs.writeFile(
+        "data/products.json",
+        JSON.stringify(existingData, null, 2),
+        "utf-8"
+    );
+}
 
 function generateUniqueCode(lastCode) {
     const prefix = "";
