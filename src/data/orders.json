@@ -89,5 +89,19 @@
     "amount": "RM25.10",
     "quantity": 1,
     "subtotal": "RM25.10"
+  },
+  {
+    "code": "14",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 3,
+    "subtotal": "RM75.30"
+  },
+  {
+    "code": "15",
+    "description": "Product",
+    "amount": "RM25.10",
+    "quantity": 4,
+    "subtotal": "RM100.40"
   }
 ]
