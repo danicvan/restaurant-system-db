@@ -236,5 +236,12 @@
     "amount": "RM12.00",
     "quantity": 3,
     "subtotal": "RM36.00"
+  },
+  {
+    "code": "35",
+    "description": "Juliana Bernardo Evangelista",
+    "amount": "RMNaN",
+    "quantity": 10,
+    "subtotal": "RMNaN"
   }
 ]
