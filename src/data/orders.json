@@ -229,5 +229,12 @@
     "amount": "RM12.00",
     "quantity": 2,
     "subtotal": "RM24.00"
+  },
+  {
+    "code": "34",
+    "description": "Teste 2",
+    "amount": "RM12.00",
+    "quantity": 3,
+    "subtotal": "RM36.00"
   }
 ]
