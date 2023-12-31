@@ -243,5 +243,12 @@
     "amount": "RMNaN",
     "quantity": 10,
     "subtotal": "RMNaN"
+  },
+  {
+    "code": "36",
+    "description": "Teste 1",
+    "amount": "RM10.00",
+    "quantity": 5,
+    "subtotal": "RM50.00"
   }
 ]
