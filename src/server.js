@@ -50,6 +50,27 @@ app.post("/products", async (req, res) => {
     }
 });
 
+app.get("/cart", async (req, res) => {
+    try {
+        const data = await fs.readFile("data/cart.json", "utf-8");
+        res.json(JSON.parse(data));
+    } catch (error) {
+        console.error("Error reading orders file: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.post("/cart", async (req, res) => {
+    try {
+        const newCart = req.body;
+        await saveProductToCart(newCart);
+        res.json({ message: "Cart data saved successfully!" });
+    } catch (error) {
+        console.error("error saving cart data:", error);
+        res.status(500).json({ error: "Internal Sever Error" });
+    }
+});
+
 async function savePurchaseToFile(newPurchase) {
     let existingData = [];
     try {
@@ -59,7 +80,7 @@ async function savePurchaseToFile(newPurchase) {
         console.log("existingData.length:", existingData.length);
     } catch (error) {
         console.error("Error reading products file:", error);
-     }
+    }
 
     // Generate a unique code for the new purchase
     const lastCode =
@@ -97,6 +118,31 @@ async function saveProductToFile(newProduct) {
 
     await fs.writeFile(
         "data/products.json",
+        JSON.stringify(existingData, null, 2),
+        "utf-8"
+    );
+}
+
+async function saveProductToCart(newCart) {
+    let existingData = [];
+    try {
+        const data = await fs.readFile("data/cart.json", "utf-8");
+        existingData = JSON.parse(data);
+        console.log("saveCartToFile, existingData:", existingData);
+        console.log("existingData.length:", existingData.length);
+    } catch (error) {
+        console.error("Error reading cart file:", error);
+    }
+
+    const lastCode =
+        existingData.length > 0 ? existingData[existingData.length - 1].code : 0;
+    const newCode = generateUniqueCode(lastCode);
+
+    newCart.code = newCode;
+    existingData.push(newCart);
+
+    await fs.writeFile(
+        "data/cart.json",
         JSON.stringify(existingData, null, 2),
         "utf-8"
     );
