@@ -1,12 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs").promises;
+const cartRoutes = require("./cartRoutes");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(cors());
+
+// Use the cartRoutes module
+app.use('/api', cartRoutes);
 
 app.get("/orders", async (req, res) => {
     try {
