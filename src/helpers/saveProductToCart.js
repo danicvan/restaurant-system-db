@@ -1,6 +1,3 @@
-const express = require("express");
-app.use(express.json());
-
 async function saveProductToCart(newCart) {
     let existingData = [];
     try {
