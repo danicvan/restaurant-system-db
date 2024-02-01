@@ -75,29 +75,36 @@ app.post("/cart", async (req, res) => {
     }
 });
 
-app.delete("/cart/:itemId", async (req, res) => {
+app.delete("/cart/:itemId?", async (req, res) => {
+    debugger;
 
-    debugger
-    
     try {
         const itemId = req.params.itemId;
-        const existingData = await fs.readFile("data/cart.json", "utf-8");
-        const cartItems = JSON.parse(existingData);
-        const itemIndex = cartItems.findIndex((item) => item.code === itemId);
 
-        if (itemIndex === -1) {
-            return res.status(404).json({ error: "Item not found in the cart" });
+        if (!itemId) {
+            await fs.writeFile("data/cart.json", "[]", "utf-8");
+            return res.json({
+                message: "All items removed from the cart successfully!",
+            });
+        } else {
+            const existingData = await fs.readFile("data/cart.json", "utf-8");
+            const cartItems = JSON.parse(existingData);
+            const itemIndex = cartItems.findIndex((item) => item.code === itemId);
+
+            if (itemIndex === -1) {
+                return res.status(404).json({ error: "Item not found in the cart" });
+            }
+
+            cartItems.splice(itemIndex, 1);
+
+            await fs.writeFile(
+                "data/cart.json",
+                JSON.stringify(cartItems, null, 2),
+                "utf-8"
+            );
+
+            res.json({ message: "Item removed from the cart successfully!" });
         }
-
-        cartItems.splice(itemIndex, 1);
-
-        await fs.writeFile(
-            "data/cart.json",
-            JSON.stringify(cartItems, null, 2),
-            "utf-8"
-        );
-
-        res.json({ message: "Item removed from the cart successfully!" });
     } catch (error) {
         console.error("Error removing item from the cart:", error);
         res.status(500).json({ error: "Internet Server Error" });
