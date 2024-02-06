@@ -111,6 +111,25 @@ app.delete("/cart/:itemId?", async (req, res) => {
     }
 });
 
+app.put("/api/cart", async (req, res) => {
+    try {
+        const updatedCart = req.body; // Get the updated cart data from the request body
+        await saveCartToFile(updatedCart); // Save the updated cart data to the cart.json file
+        res.json({ message: "Cart updated successfully!" }); // Send a success response
+    } catch (error) {
+        console.error("Error updating cart:", error);
+        res.status(500).json({ error: "Internal Server Error" }); // Send an error response
+    }
+});
+
+async function saveCartToFile(updatedCart) {
+    await fs.writeFile(
+        "data/cart.json",
+        JSON.stringify(updatedCart, null, 2),
+        "utf-8"
+    );
+}
+
 async function savePurchaseToFile(newPurchase) {
     let existingData = [];
     try {
