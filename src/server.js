@@ -1,12 +1,19 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const fs = require("fs").promises;
 const cartRoutes = require("./cartRoutes");
 
 const app = express();
 const PORT = 3000;
 
+// Increase payload size limit to 50MB
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
 app.use(express.json());
+
+// Allow requests from all origins
 app.use(cors());
 
 // Use the cartRoutes module
@@ -75,6 +82,18 @@ app.post("/cart", async (req, res) => {
     }
 });
 
+app.put("/api/cart", async (req, res) => {
+    try {
+        const updatedCart = req.body; // Get the updated cart data from the request body
+        console.log(`updatedCart: ${updatedCart}`);
+        await saveCartToFile(updatedCart); // Save the updated cart data to the cart.json file
+        res.json({ message: "Cart updated successfully!" }); // Send a success response
+    } catch (error) {
+        console.error("Error updating cart:", error);
+        res.status(500).json({ error: "Internal Server Error" }); // Send an error response
+    }
+});
+
 app.delete("/cart/:itemId?", async (req, res) => {
     debugger;
 
@@ -108,17 +127,6 @@ app.delete("/cart/:itemId?", async (req, res) => {
     } catch (error) {
         console.error("Error removing item from the cart:", error);
         res.status(500).json({ error: "Internet Server Error" });
-    }
-});
-
-app.put("/api/cart", async (req, res) => {
-    try {
-        const updatedCart = req.body; // Get the updated cart data from the request body
-        await saveCartToFile(updatedCart); // Save the updated cart data to the cart.json file
-        res.json({ message: "Cart updated successfully!" }); // Send a success response
-    } catch (error) {
-        console.error("Error updating cart:", error);
-        res.status(500).json({ error: "Internal Server Error" }); // Send an error response
     }
 });
 
@@ -238,6 +246,9 @@ function generateUniqueCode(lastCode) {
     // Combine the prefix and the new numeric code to create the new code
     return `${prefix}${newNumericCode}`;
 }
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
