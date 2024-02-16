@@ -54,5 +54,12 @@
     "description": "Teste",
     "image": "/src/assets/card-1.png",
     "code": "8"
+  },
+  {
+    "name": "Teste",
+    "price": "10,00",
+    "description": "Teste",
+    "image": "/src/assets/card-1.png",
+    "code": "9"
   }
 ]
