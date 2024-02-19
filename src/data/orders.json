@@ -509,5 +509,26 @@
     "amount": "RMNaN",
     "quantity": 5,
     "subtotal": "RMNaN"
+  },
+  {
+    "code": "74",
+    "description": "Juliana",
+    "amount": "RM20.00",
+    "quantity": 1,
+    "subtotal": "RM20.00"
+  },
+  {
+    "code": "75",
+    "description": "Juliana",
+    "amount": "RM20.00",
+    "quantity": 3,
+    "subtotal": "RM60.00"
+  },
+  {
+    "code": "76",
+    "description": "Teste 1",
+    "amount": "RM10.00",
+    "quantity": 4,
+    "subtotal": "RM30.00"
   }
 ]
