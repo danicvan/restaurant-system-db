@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const fs = require("fs").promises;
 const cartRoutes = require("./cartRoutes");
 
 const app = express();
 const PORT = 3000;
+const JTW_SECRET = "your_secret_key";
 
 // Increase payload size limit to 50MB
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -15,6 +18,103 @@ app.use(express.json());
 
 // Allow requests from all origins
 app.use(cors());
+
+const usersFilePath = "users.json";
+
+async function getUsers() {
+    try {
+        const data = await fs.readFile(usersFilePath, "utf-8");
+        return JSON.parse(data);
+    } catch (error) {
+        console.error("Error reading users file:", error);
+        return [];
+    }
+}
+
+async function saveUsers(users) {
+    try {
+        await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2), "utf-8");
+    } catch (error) {
+        console.error("Error saving users file:", error);
+    }
+}
+
+const users = [
+    { id: 1, username: "user1", passwordHash: "$2a$10$YXUS3pYyaXwluC/OQ5.hgu63aCswVMEL.nLcDWJ/uGQpv5Mxq76D2" }, // Password: password1
+    { id: 2, username: "user2", passwordHash: "$2a$10$5FzAmFfp.8XuI7H2i62okufbp/.QYISw8L6VzEDBxseI6iqzGQ8lG" }, // Password: password2
+  ];
+
+// Middleware to verify JWT
+function verifyToken(req, res, next) {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        req.user = decoded;
+        next();
+    });
+}
+
+app.post("/register", async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const users = await getUsers();
+
+        // Check if the username already exists
+        if (users.some((user) => user.username === username)) {
+            return res.status(400).json({ error: "Username already exists" });
+        }
+
+        // Hash the password
+        const salt = bcrypt.genSaltSync(10);
+        const passwordHash = bcrypt.hashSync(password, salt);
+
+        const newUser = { id: users.length + 1, username, passwordHash };
+        users.push(newUser);
+
+        await saveUsers(users);
+
+        res.json({ message: "User registered successfully" });
+    } catch (error) {
+        console.error("Error registering user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const users = await getUsers();
+
+        // Find the user by username
+        const user = users.find((user) => user.username === username);
+
+        // If user not found or password is incorrect, return error
+        if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
+            return res.status(401).json({ error: "Invalid username or password" });
+        }
+
+        // Generate JWT Token
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET_KEY);
+        res.json({ token: token });
+    } catch (error) {
+        console.error("Error logging in:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+// Protected route example
+app.get("/protected", verifyToken, (req, res) => {
+    res.json({message: "This is a protected route"});
+});
 
 // Use the cartRoutes module
 app.use("/api", cartRoutes);
