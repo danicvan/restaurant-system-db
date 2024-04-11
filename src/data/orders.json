@@ -537,5 +537,19 @@
     "amount": "RM10.00",
     "quantity": 3,
     "subtotal": "RM20.00"
+  },
+  {
+    "code": "78",
+    "description": "Teste 2",
+    "amount": "RM12.00",
+    "quantity": 8,
+    "subtotal": "RM72.00"
+  },
+  {
+    "code": "79",
+    "description": "Teste 1",
+    "amount": "RM10.00",
+    "quantity": 3,
+    "subtotal": "RM30.00"
   }
 ]
