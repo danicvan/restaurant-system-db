@@ -8,7 +8,7 @@ const cartRoutes = require("./cartRoutes");
 
 const app = express();
 const PORT = 3000;
-const JTW_SECRET = "your_secret_key";
+const JWT_SECRET = "123456";
 
 // Increase payload size limit to 50MB
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -19,7 +19,7 @@ app.use(express.json());
 // Allow requests from all origins
 app.use(cors());
 
-const usersFilePath = "users.json";
+const usersFilePath = "data/users.json";
 
 async function getUsers() {
     try {
@@ -99,11 +99,12 @@ app.post("/login", async (req, res) => {
 
         // If user not found or password is incorrect, return error
         if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
+            console.log("login failed")
             return res.status(401).json({ error: "Invalid username or password" });
         }
 
         // Generate JWT Token
-        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET_KEY);
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET);
         res.json({ token: token });
     } catch (error) {
         console.error("Error logging in:", error);
