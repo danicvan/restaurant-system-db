@@ -13,5 +13,10 @@
     "id": 3,
     "username": "user003",
     "passwordHash": "$2b$10$xV52yaLT2XgLhe3luztvnO5YfWFR62/bzxy195bXE07MwUh/FEGYS"
+  },
+  {
+    "id": 4,
+    "username": "123",
+    "passwordHash": "$2b$10$zjUL4KL5QAaLQc.gRt.Jse3aMktb9xITOHdjuEJaYKbQriE.xh5gm"
   }
 ]
